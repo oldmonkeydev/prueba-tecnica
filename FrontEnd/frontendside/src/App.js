@@ -34,7 +34,7 @@ class App extends Component {
   PostRequest=async()=>{
     delete this.state.form.id;
    await axios.post(url,this.state.form).then(response=>{
-      this.modalInsertRequest();
+      this.ModalInsertRequest();
       this.GetRequest();
     }).catch(error=>{
       console.log(error.message);
@@ -43,10 +43,21 @@ class App extends Component {
   ModalInsertRequest=()=>{
     this.setState({modalInsert: !this.state.modalInsert});
   }
-  DeleteRequest=()=>{
-    axios.delete(url+this.state.form.id).then(response=>{
+  DeleteRequest=(id)=>{
+    axios.delete(url+"?id="+id).then(response=>{
       this.setState({modalDelete: false});
       this.GetRequest();
+    })
+  }
+  SelectCustomer=(customer)=>{
+    this.setState({
+      tipoModal: 'delete',
+      form: {
+        id: customer.id,
+        name: customer.name,
+        email: customer.email,
+        notes: customer.notes
+      }
     })
   }
   
@@ -90,7 +101,7 @@ class App extends Component {
                 <td>{customer.email}</td>
                 <td>{customer.notes}</td>
                 <td>
-                  <button className="btn btn-primary" onClick={() => this.DeleteRequest()}><FontAwesomeIcon icon={faTrashAlt}/></button>
+                  <button className="btn btn-primary" onClick={() => this.DeleteRequest(customer.id)}><FontAwesomeIcon icon={faTrashAlt}/></button>
                 </td>
               </tr>
             )
@@ -123,6 +134,15 @@ class App extends Component {
                   </button>
                     <button className="btn btn-danger" onClick={()=>this.ModalInsertRequest()}>Cancel</button>
                 </ModalFooter>
+          </Modal>
+          <Modal isOpen={this.state.modalDelete}>
+            <ModalBody>
+               Are you sure that you wanna delete this row? {form && form.nombre}
+            </ModalBody>
+            <ModalFooter>
+              <button className="btn btn-danger" onClick={()=>this.peticionDelete()}>yes</button>
+              <button className="btn btn-secundary" onClick={()=>this.setState({modalDelete: false})}>No</button>
+            </ModalFooter>
           </Modal>
     </div>
   );
