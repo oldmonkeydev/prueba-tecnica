@@ -44,7 +44,7 @@ namespace ProFitPrueba.Model
 
             }
         }
-        ]
+        
         public void DeleteById(int id)
         {
             using (IDbConnection dbConnection = Connection)
