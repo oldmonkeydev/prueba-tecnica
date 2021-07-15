@@ -27,12 +27,13 @@ namespace ProFitPrueba
         {
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-                c.AddPolicy(name: "MyPolicy",
+      
+                c.AddPolicy("MyPolicy",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000/")
-                            .WithMethods("POST", "DELETE", "GET");
+                    builder.AllowAnyOrigin()
+                            .WithMethods("POST", "DELETE","GET")
+                            .AllowAnyHeader();
                 });
                 
             });
@@ -63,7 +64,7 @@ namespace ProFitPrueba
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 
