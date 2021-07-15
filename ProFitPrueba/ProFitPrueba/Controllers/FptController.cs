@@ -21,7 +21,7 @@ namespace ProFitPrueba.Controllers
             repository = new Repository();
         }
         [HttpGet]
-        [EnableCors("AllowOrigin")]
+        [EnableCors("MyPolicy")]
         public IEnumerable<model> ListOfCustomer()
         {
             return repository.GetAll();
